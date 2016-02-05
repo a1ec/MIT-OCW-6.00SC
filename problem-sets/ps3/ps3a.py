@@ -101,8 +101,6 @@ def display_hand(hand):
     for letter in hand.keys():
         for j in range(hand[letter]):
             print letter,              # print all on the same line
-    print "exiting hand"                           # print an empty line
-
 #
 # Make sure you understand how this function works and what it does!
 #
@@ -158,7 +156,7 @@ def update_hand(hand, word):
         # remove zero value keys
         if h[c] == 0: h.pop(c, None)
     return h
-    # 
+
 
 def generate_hand_from(word):
     d = dict()
@@ -220,10 +218,10 @@ def play_hand(hand, word_list):
     """
     # TO DO ...
 
-    
-    hand_finished = False
-    while hand_finished != True:
-        print "Current Hand:", display_hand(hand)
+    while True:
+        print "Current Hand:",
+        display_hand(hand)
+        print ""
         word = raw_input("Enter word or '.' to exit: ")
         
         if is_valid_word(word, hand, word_list):
@@ -231,7 +229,7 @@ def play_hand(hand, word_list):
             # change HAND_SIZE to be adjustable by player
             print "%s earned %d points." % (word, get_word_score(word, HAND_SIZE))
         if word == '.' or hand == {}:
-            hand_finished = True
+            return
         
 #
 # Problem #5: Playing a game
@@ -257,11 +255,12 @@ def play_game(word_list):
         c = raw_input("(n)ew hand, (r)epeat last, (e)xit: ").lower()
         
         if c == 'e':
-            break
+            return
         if c == 'n':
             hand = deal_hand(HAND_SIZE)
         elif c == 'r': pass
         else: continue
+
         play_hand(hand, word_list)
 
 #
