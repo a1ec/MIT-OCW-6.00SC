@@ -101,7 +101,7 @@ def display_hand(hand):
     for letter in hand.keys():
         for j in range(hand[letter]):
             print letter,              # print all on the same line
-    print ""                           # print an empty line
+    print "exiting hand"                           # print an empty line
 
 #
 # Make sure you understand how this function works and what it does!
@@ -187,13 +187,6 @@ def is_valid_word(word, hand, word_list):
     else: return False
     return True
 
-# check if key value is equal to number of occurences in word 
-def calculate_handlen(hand):
-    handlen = 0
-    for v in hand.values():
-        handlen += v
-    return handlen
-
 #
 # Problem #4: Playing a hand
 #
@@ -270,7 +263,7 @@ def play_game(word_list):
         elif c == 'r': pass
         else: continue
         play_hand(hand, word_list)
-#    s = raw_input("Enter word, or \".\" to finish:")
+
 #
 # Build data structures used for entire session and play game
 #
