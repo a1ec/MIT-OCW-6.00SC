@@ -179,14 +179,15 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
     if word in word_list:
-#        print "word:", word, " hand:", hand
+        print "word:", word, " hand:", hand
         for c in word:
-#            print "c:%s hand[%s]:%s < %s (word.count())" % (c, c, hand.get(c), word.count(c))
+           print "c:%s hand[%s]:%s < %s (word.count())" % (c, c, hand.get(c), word.count(c))
            # use get() method to safely look up value without KeyError
            if hand.get(c) < word.count(c): return False
+    else: return False
     return True
-    # check if key value is equal to number of occurences in word 
 
+# check if key value is equal to number of occurences in word 
 def calculate_handlen(hand):
     handlen = 0
     for v in hand.values():
@@ -226,10 +227,18 @@ def play_hand(hand, word_list):
     """
     # TO DO ...
 
-    print "Current Hand:", display_hand(hand)
-    word = "zzz"
-    if is_valid_word(word, hand, word_list):
-        print word            
+    
+    game_finished = False
+    while game_finished != True:
+        print "Current Hand:", display_hand(hand)
+        word = raw_input("Enter word or '.' to exit: ")
+        
+        if is_valid_word(word, hand, word_list):
+            hand = update_hand(hand, word)
+            print "%s earned %d points." % (word, get_word_score(word, len(word)))
+        if word == '.' or hand == {}:
+            game_finished = True
+        
 #
 # Problem #5: Playing a game
 # Make sure you understand how this code works!
@@ -250,8 +259,8 @@ def play_game(word_list):
     * If the user inputs anything else, ask them again.
     """
     hand = deal_hand(HAND_SIZE)
-    play_hand(h, word_list)
-    s = raw_input("Enter word, or "." to finish:")
+    play_hand(hand, word_list)
+#    s = raw_input("Enter word, or \".\" to finish:")
 #
 # Build data structures used for entire session and play game
 #
