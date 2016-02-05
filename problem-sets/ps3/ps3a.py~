@@ -251,6 +251,7 @@ def play_game(word_list):
     """
     hand = deal_hand(HAND_SIZE)
     play_hand(h, word_list)
+    s = raw_input("Enter word, or "." to finish:")
 #
 # Build data structures used for entire session and play game
 #

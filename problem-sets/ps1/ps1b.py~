@@ -17,7 +17,7 @@ min_payment_monthly = 0
 found_repayment = False
 balance = 0
 
-while found_repayment == False:
+while !found_repayment:
     min_payment_monthly += PAYMENT_INCR
     bal_prev = bal_outs
 
