@@ -100,8 +100,8 @@ def display_hand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-             print letter,              # print all on the same line
-    print                               # print an empty line
+            print letter,              # print all on the same line
+    print ""                           # print an empty line
 
 #
 # Make sure you understand how this function works and what it does!
@@ -179,9 +179,9 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
     if word in word_list:
-        print "word:", word, " hand:", hand
+#        print "word:", word, " hand:", hand
         for c in word:
-           print "c:%s hand[%s]:%s < %s (word.count())" % (c, c, hand.get(c), word.count(c))
+#           print "c:%s hand[%s]:%s < %s (word.count())" % (c, c, hand.get(c), word.count(c))
            # use get() method to safely look up value without KeyError
            if hand.get(c) < word.count(c): return False
     else: return False
@@ -228,16 +228,17 @@ def play_hand(hand, word_list):
     # TO DO ...
 
     
-    game_finished = False
-    while game_finished != True:
+    hand_finished = False
+    while hand_finished != True:
         print "Current Hand:", display_hand(hand)
         word = raw_input("Enter word or '.' to exit: ")
         
         if is_valid_word(word, hand, word_list):
             hand = update_hand(hand, word)
-            print "%s earned %d points." % (word, get_word_score(word, len(word)))
+            # change HAND_SIZE to be adjustable by player
+            print "%s earned %d points." % (word, get_word_score(word, HAND_SIZE))
         if word == '.' or hand == {}:
-            game_finished = True
+            hand_finished = True
         
 #
 # Problem #5: Playing a game
@@ -259,7 +260,16 @@ def play_game(word_list):
     * If the user inputs anything else, ask them again.
     """
     hand = deal_hand(HAND_SIZE)
-    play_hand(hand, word_list)
+    while True:
+        c = raw_input("(n)ew hand, (r)epeat last, (e)xit: ").lower()
+        
+        if c == 'e':
+            break
+        if c == 'n':
+            hand = deal_hand(HAND_SIZE)
+        elif c == 'r': pass
+        else: continue
+        play_hand(hand, word_list)
 #    s = raw_input("Enter word, or \".\" to finish:")
 #
 # Build data structures used for entire session and play game
