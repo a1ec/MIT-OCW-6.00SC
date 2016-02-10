@@ -1,0 +1,35 @@
+Your algorithms should be plain English explanations for the steps your program will take to solve these problems.
+
+Notes:
+abcdefghijklmnopqrstuvwxyz """""
+yz abcdefghijklmnopqrstuvwx"""""
+
+Prob 1:
+i = 0
+for each char in alphabet:
+    add key char and alphabet[i+shift)%length(alphabet)]
+
+# init
+shift = 3
+cipher_dict = {}
+# cipher_list = []
+
+# generate alphabet string with space
+import string
+abc = list(string.ascii_lowercase)
+abc.append(' ')
+l = len(abc)
+
+# generate shifted cipher_dict
+i = 0
+for c in abc:
+    cipher_dict[c] = abc[(i + shift) % l]
+    # cipher_list.append(abc[(i + shift) % l])
+    i += 1
+
+print cipher_list
+
+Write out your algorithm for Problem 2 here:
+
+
+Write out your algorithm for Problem 4 here:
