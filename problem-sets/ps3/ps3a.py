@@ -76,13 +76,13 @@ def get_word_score(word, n):
     word: string (lowercase letters)
     returns: int >= 0
     """
-    total = 0
+    score = 0
     for c in word:
-        total += SCRABBLE_LETTER_VALUES[c]
+        score += SCRABBLE_LETTER_VALUES[c]
 #        print "total:", total, "c:", c, "dict:", SCRABBLE_LETTER_VALUES[c]
-    total *= len(word)
-    if len(word) == n: total += 50
-    return total
+    score *= len(word)
+    if len(word) == n: score += 50
+    return score
 #
 # Make sure you understand how this function works and what it does!
 #
@@ -226,7 +226,6 @@ def play_hand(hand, word_list):
         
         if is_valid_word(word, hand, word_list):
             hand = update_hand(hand, word)
-            # change HAND_SIZE to be adjustable by player
             print "%s earned %d points." % (word, get_word_score(word, HAND_SIZE))
         if word == '.' or hand == {}:
             return
