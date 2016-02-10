@@ -192,7 +192,7 @@ def build_decoder(shift):
 
     HINT : Use build_coder.
     """
-    ### TODO.
+    return dict((b,a) for a,b in build_coder(shift).iteritems())
  
 
 def apply_coder(text, coder):
@@ -209,7 +209,13 @@ def apply_coder(text, coder):
     >>> apply_coder("Khoor,czruog!", build_decoder(3))
     'Hello, world!'
     """
-    ### TODO.
+    enc_str = []
+    for c in text:
+        # use safe method get() to ensure dict entry exists without raising KeyError
+        if coder.get(c) == None: enc_str.append(c)
+        else: enc_str.append(coder[c])
+    # convert list to string
+    return "".join(enc_str)
   
 
 def apply_shift(text, shift):
