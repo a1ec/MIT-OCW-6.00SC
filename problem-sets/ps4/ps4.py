@@ -120,17 +120,22 @@ def build_coder(shift):
     assert -27 < shift < 27
     #cipher_list = []
     # generate alphabet string with space
-    abc = list(string.ascii_uppercase + ' ' + string.ascii_lowercase + ' ')
-    #abc = list(string.ascii_lowercase + ' ' + string.ascii_uppercase + ' ')
-    l = len(abc)
-
+    lower_abc = string.ascii_lowercase + ' '
+    upper_abc = string.ascii_uppercase + ' '
+    shifted_lower_abc = lower_abc[shift:] + lower_abc[:shift]    
+    shifted_upper_abc = upper_abc[shift:] + upper_abc[:shift]
+    
     # generate shifted cipher_dict
     i = 0
-    for c in abc:
-        coder[c] = abc[(i + shift) % l]
-        #cipher_list.append(abc[(i + shift) % l])
+    for c in upper_abc:
+        coder[c] = shifted_upper_abc[i]
         i += 1
-    #print cipher_list
+
+    i = 0
+    for c in lower_abc:
+        coder[c] = shifted_lower_abc[i]
+        i += 1
+
     return coder
     
 def build_codersol(shift):
