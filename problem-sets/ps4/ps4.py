@@ -4,6 +4,7 @@
 #
 import string
 import random
+import numbers
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -93,6 +94,9 @@ def get_fable_string():
     return fable
 
 
+
+def test_shift(a, shift):
+    return a[shift:] + a[:shift]
 # (end of helper code)
 # -----------------------------------
 
@@ -110,6 +114,38 @@ def build_coder(shift):
 
     Example:
     >>> build_coder(3)
+    """
+    import string
+    coder = {}
+    assert -27 < shift < 27
+    #cipher_list = []
+    # generate alphabet string with space
+    abc = list(string.ascii_uppercase + ' ' + string.ascii_lowercase + ' ')
+    #abc = list(string.ascii_lowercase + ' ' + string.ascii_uppercase + ' ')
+    l = len(abc)
+
+    # generate shifted cipher_dict
+    i = 0
+    for c in abc:
+        coder[c] = abc[(i + shift) % l]
+        #cipher_list.append(abc[(i + shift) % l])
+        i += 1
+    #print cipher_list
+    return coder
+    
+def build_codersol(shift):
+    """
+    Returns a dict that can apply a Caesar cipher to a letter.
+    The cipher is defined by the shift value. Ignores non-letter characters
+    like punctuation and numbers. The empty space counts as the 27th letter
+    of the alphabet, so spaces should be mapped to a lowercase letter as
+    appropriate.
+
+    shift: 0 <= int < 27
+    returns: dict
+
+    Example:
+    >>> build_coder(3)
     {' ': 'c', 'A': 'D', 'C': 'F', 'B': 'E', 'E': 'H', 'D': 'G', 'G': 'J',
     'F': 'I', 'I': 'L', 'H': 'K', 'K': 'N', 'J': 'M', 'M': 'P', 'L': 'O',
     'O': 'R', 'N': 'Q', 'Q': 'T', 'P': 'S', 'S': 'V', 'R': 'U', 'U': 'X',
@@ -120,21 +156,30 @@ def build_coder(shift):
     'v': 'y', 'y': 'a', 'x': ' ', 'z': 'b'}
     (The order of the key-value pairs may be different.)
     """
-    import string
-    cipher_dict = {}
-    #cipher_list = []
-    # generate alphabet string with space
-    abc = list(string.ascii_uppercase + ' ' + string.ascii_lowercase + ' ')
-    l = len(abc)
+    assert shift >= 0 and shift < 27, 'shift %s is not between 0 and 27' % shift
+    #numbers.Integral used in case of long integers
+    assert isinstance(shift, numbers.Integral), 'shift is not an integer'
+    
+    coder = {}
 
-    # generate shifted cipher_dict
-    i = 0
-    for c in abc:
-        cipher_dict[c] = abc[(i + shift) % l]
-        #cipher_list.append(abc[(i + shift) % l])
-        i += 1
-    #print cipher_list
-    return cipher_dict
+    lowercase_and_space = string.ascii_lowercase + ' '
+    uppercase_and_space = string.ascii_uppercase + ' '
+
+    # Shift letters over shift places
+    shifted_lowercase_and_space = lowercase_and_space[shift:] + lowercase_and_space[:shift]
+    shifted_uppercase_and_space = uppercase_and_space[shift:] + uppercase_and_space[:shift]
+
+    # Construct Caesar cipher dictionary
+    # Add uppercase letters first so ' ' will be overwritten to point to lowercase letter
+    for i in range(len(uppercase_and_space)):
+        coder[uppercase_and_space[i]] = shifted_uppercase_and_space[i]
+
+    for i in range(len(lowercase_and_space)):
+        coder[lowercase_and_space[i]] = shifted_lowercase_and_space[i]
+
+    return coder
+
+    
 def build_encoder(shift):
     """
     Returns a dict that can be used to encode a plain text. For example, you
@@ -207,7 +252,7 @@ def apply_coder(text, coder):
     >>> apply_coder("Hello, world!", build_encoder(3))
     'Khoor,czruog!'
     >>> apply_coder("Khoor,czruog!", build_decoder(3))
-    'Hello, world!'
+2    'Hello, world!'
     """
     enc_str = []
     for c in text:
@@ -235,7 +280,7 @@ def apply_shift(text, shift):
     >>> apply_shift('This is a test.', 8)
     'Apq hq hiham a.'
     """
-    ### TODO.
+    return apply_coder(text, build_coder(shift))
    
 #
 # Problem 2: Codebreaking.
