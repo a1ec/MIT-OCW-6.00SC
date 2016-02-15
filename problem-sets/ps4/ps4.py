@@ -290,6 +290,13 @@ def apply_shift(text, shift):
 #
 # Problem 2: Codebreaking.
 #
+
+def max_key_dict(d):
+    import operator
+    try: m = max(d.iteritems(), key=operator.itemgetter(1))[0]
+    except ValueError: return None
+    else: return m 
+    
 def find_best_shift(wordlist, text):
     """
     Decrypts the encoded text and returns the plaintext.
@@ -306,8 +313,35 @@ def find_best_shift(wordlist, text):
     >>> apply_coder(s, build_decoder(8)) returns
     'Hello, world!'
     """
-    ### TODO
-   
+    shift_range = 27
+    shift_results = {}
+    i = 0
+    while i < shift_range:
+        print "shift %d:" % i
+        shift_str = apply_shift(text, i)
+
+        # split shft_str into lower case word list
+        words = shift_str.lower().split()
+        
+        word_count = 0
+        for w in words:
+            if is_word(wordlist, w):
+                word_count += 1
+        
+        if word_count > 0:
+            shift_results[i] = word_count
+        i += 1
+            
+    # return shift value from largest key in shift_attempts
+    shift = max_key_dict(shift_results)
+    if shift is not None: return 27 - shift
+
+def tbs(in_str, shift):
+    s = apply_shift(in_str, shift)
+    print "s:   ", s
+    x = find_best_shift(wordlist, s)
+    print "x:   ", x
+    print "2:  ", apply_coder(s, build_decoder(x))
 #
 # Problem 3: Multi-level encryption.
 #
